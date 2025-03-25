@@ -1,6 +1,6 @@
 
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import './Meet_Pet_Friend.css';
 import {useState} from 'react';
 
@@ -8,27 +8,38 @@ import {useState} from 'react';
 function Meet_Pet_Friend() {
 
     const location = useLocation();
-    const userPetData = location.state;
-    useEffect(() => {
-        console.log("userPetData", userPetData);
-        if (userPetData) {
-          console.log("收到的 Pet 資料：", userPetData);
-        }
-      }, [userPetData]);
     
+    // const userPetData = location.state||getDefaultJsonData();
+    const [userPetData, setUserPetData] = useState(location.state);
+   
+    function getDefaultJsonData(){
+        fetch('https://cataas.com/cat?json=true')
+        .then(response => response.json())
+        .then(data => (setUserPetData({"id": data.id, "url": data.url, "name": "kitty"})
+        ));
+      }
+   
     useEffect(() => {
-        getJsonData();
+        if (!userPetData) {
+            getDefaultJsonData();}
+        },[]);
+
+        const [showFriendData, setShowFriendData] = useState(false);
+        const [petFriendId, setPetFriendId] = useState(null);
+        const [petFriendImgUrl, setPetFriendImgUrl] = useState(null);
+      
+        const [petFriendName, setPetFriendName] = useState("kitty");
+        
+        const [petFriendList, setPetFriendList] = useState([]);
+    
+        const [showPetFriendList, setShowPetFriendList] = useState(false);
+    
+
+    useEffect(() => {
+        getJsonData();  // initial fetch pet friend data
+        
       }, []);
-    const [showFriendData, setShowFriendData] = useState(false);
-    const [petFriendId, setPetFriendId] = useState(null);
-    const [petFriendImgUrl, setPetFriendImgUrl] = useState(null);
-  
-    const [petFriendName, setPetFriendName] = useState("kitty");
-    
-    const [petFriendList, setPetFriendList] = useState([]);
-
-    const [showPetFriendList, setShowPetFriendList] = useState(false);
-
+   
     function getJsonData(){
         fetch('https://cataas.com/cat?json=true')
         .then(response => response.json())
@@ -40,6 +51,8 @@ function Meet_Pet_Friend() {
           
         });
       }
+      
+
 
     useEffect(() => {
         if (petFriendList.length > 0) {
@@ -66,8 +79,8 @@ function Meet_Pet_Friend() {
             <h3>Meet Your Pet Friend ~ </h3>
             <div className="petFriend">
                 <div className="userPet">
-                <h3> Your Pet Name is: {userPetData.name}</h3>
-                <img src={userPetData.url} alt="pet" />
+                <h3> Your Pet Name is: {userPetData? userPetData.name: "kitty"}</h3>
+                <img src={userPetData? userPetData.url: null} alt="pet" />
 
                 </div>
                 <div className="newPetFriend">
@@ -85,22 +98,24 @@ function Meet_Pet_Friend() {
 
                 
             </div>
-            {showPetFriendList ? 
+            
+            {showPetFriendList ?    
+                <>
+                    <h3> Congratulation!! </h3>
+                    <h3> Your Pet has {petFriendList.length} friends !! </h3>
                     <div className="petFriendList">
-                        <h3> Your Pet has {petFriendList.length} friends !! </h3>
+                        
                         {petFriendList.map((petFriend, index) => (
                             <div key={index}>
                                 <img src={petFriend.url} alt="pet_friend" />
                             </div>
                         ))}
                     </div>
-                    : null}
+                </>
+                    : null }
         </div>
         );
     
-
-
-
 
 
   };

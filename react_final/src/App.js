@@ -13,16 +13,16 @@ function App() {
 
      <Router>
      <nav>
-
-        <Link to="/home">Home</Link> | 
+{/* 
+        <Link to="/home">Home</Link> |  */}
     
         <Link to="/Your_Pet">Your_Pet</Link> | 
         <Link to="/Meet_Pet_Friend">Meet_Pet_Friend</Link>
       </nav>
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Your_Pet />} />
+        {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/Your_Pet" element={<Your_Pet />} />
         <Route path="/Meet_Pet_Friend" element={<Meet_Pet_Friend />} />
       </Routes>
