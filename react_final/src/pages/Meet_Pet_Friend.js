@@ -33,7 +33,7 @@ function Meet_Pet_Friend() {
         const [petFriendList, setPetFriendList] = useState([]);
     
         const [showPetFriendList, setShowPetFriendList] = useState(false);
-    
+        const [duration, setDuration] = useState(12);
 
     useEffect(() => {
         getJsonData();  // initial fetch pet friend data
@@ -65,6 +65,8 @@ function Meet_Pet_Friend() {
         setPetFriendList([...petFriendList, newPetFriendData]);
         setShowFriendData(false);
         getJsonData();
+        if (duration > 0.4)
+        setDuration(duration / 1.5);
     } 
 
     function denyPetFriendAndGetNewFriend(){
@@ -107,7 +109,7 @@ function Meet_Pet_Friend() {
                         
                         {petFriendList.map((petFriend, index) => (
                             <div key={index}>
-                                <img src={petFriend.url} alt="pet_friend" />
+                                <img src={petFriend.url} alt="pet_friend" style={{ animationDuration: `${duration}s` }}  />
                             </div>
                         ))}
                     </div>

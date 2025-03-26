@@ -31,10 +31,18 @@
     margin-bottom: 50px;
 }
 
+
+@keyframes swing-bounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-40px) rotate(-15deg); }
+    50% { transform: translateY(0) rotate(0deg); }
+    75% { transform: translateY(-40px) rotate(15deg); }
+  }
+  
   
 .petFriendList{
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 列 */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 10px;
 }
 
@@ -43,6 +51,11 @@
     height: 300px;
     border-radius: 50%;
     margin-right: 50px;
+    
+    display: block;
+    margin: auto;
+  
+    /* animation: swing-bounce 6s infinite ease-in-out; */
 }
 
 
